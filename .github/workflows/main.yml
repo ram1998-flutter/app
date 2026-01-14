@@ -18,16 +18,12 @@ jobs:
         with:
           channel: 'stable'
 
-      # خطوة سحرية لإصلاح مشكلة التوافق تلقائياً
-      - name: Fix Android Config
+      # خطوة الإصلاح الجذري: مسح مجلد أندرويد القديم وإنشاء واحد جديد
+      - name: Repair and Recreate Android
         run: |
-          cd android
-          # تحديث نسخة Gradle إلى 8.10 لتتوافق مع Flutter الحديث
-          sed -i 's/gradle-.*-bin.zip/gradle-8.10-all.zip/g' gradle/wrapper/gradle-wrapper.properties
-          # تحديث نسخة Kotlin في ملف build.gradle
-          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/g' build.gradle
-          cd ..
-
+          rm -rf android  # حذف المجلد القديم المسبب للمشاكل
+          flutter create . --platforms android # إنشاء مجلد أندرويد جديد متوافق 100%
+          
       - name: Install dependencies
         run: flutter pub get
 
@@ -37,5 +33,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: my-android-app
+          name: my-app-fixed
           path: build/app/outputs/flutter-apk/app-release.apk
