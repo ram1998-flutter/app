@@ -1,14 +1,14 @@
 name: Build Android APK
-on: [push] # سيعمل البناء تلقائياً في كل مرة تعدل فيها الكود وترفعه
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # تحديث للإصدار 4
 
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4 # تحديث للإصدار 4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -22,7 +22,7 @@ jobs:
       - run: flutter build apk --release
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # هذا هو التعديل المطلوب لحل المشكلة
         with:
           name: my-android-app
           path: build/app/outputs/flutter-apk/app-release.apk
